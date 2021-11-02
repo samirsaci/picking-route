@@ -226,7 +226,7 @@ Because the ressources provided by Streamlit cloud or Heroku are limited, I woul
 > -> Enjoy!
 
 # Use the application 🖥️ 
-> Access it here: 
+> This app has not been deployed, you need to use it locally/.
 
 ## **Why should you use it?**
 This Streamlit Web Application has been designed for **Supply Chain Engineers** to help them simulating the impact on picking route optimization in the total distance of their picking operators.
