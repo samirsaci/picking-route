@@ -3,7 +3,7 @@
 In a **Distribution Center (DC)**, walking time from one location to another during picking route can account for 60% to 70% of the operator’s working time. Reducing this walking time is the most effective way to increase your DC overall productivity.
 
 <p align="center">
-  <img align="center" src="static/img/intro_1.gif" width=50%>
+  <img align="center" src="static/img/intro_1.gif" width=75%>
 </p>
 
 I have published a series of articles that propose an approach to  design a model to simulate the impact of several picking processes and routing methods to find optimal order picking by using the **Single Picker Routing Problem (SPRP)** for a two-dimensional warehouse model (axis-x, axis-y).
@@ -50,7 +50,7 @@ _For more information and details about calculation: [Medium Article](https://to
 For this study, we will use the example of E-Commerce type DC where items are stored in 4 level shelves. These shelves are organized in multiple rows (Row#: 1 … n) and aisles (Aisle#: A1 … A_n).
 
 <p align="center">
-  <img align="center" src="static/img/trolley.jpeg" width=50%>
+  <img align="center" src="static/img/trolley.jpeg" width=35%>
 </p>
 
 1. Items Dimensions: Small and light dimensions items
@@ -58,7 +58,7 @@ For this study, we will use the example of E-Commerce type DC where items are st
 3. Picking Route: Picking Route starts and ends at the same location
 
 <p align="center">
-  <img align="center" src="static/img/wave_picking.gif" width=50%>
+  <img align="center" src="static/img/wave_picking.gif" width=60%>
 </p>
 
 Scenario 1, the worst in terms of productivity, can be easily optimized because of
