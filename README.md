@@ -169,7 +169,7 @@ At each step, we have a collection of parameters that can be tuned to improve pe
 
 #### **Comparing three methods of wave creation**
 <p align="center">
-  <img align="center" src="static/img/wave_creation.png" width=100%>
+  <img align="center" src="static/img/wave_creation.png" width=75%>
 </p>
 
 We’ll start first by assessing the impact of Order Wave processing by clusters of picking locations on total walking distance.
@@ -194,7 +194,7 @@ We’ll be testing three different methods:
 
 # Build the application locally 🏗️ 
 
-Because the calculations are
+Because the ressources provided by Streamlit cloud or Heroku are limited, I would suggest to run this application locally.
 
 ## **Build a python local environment (recommanded)** 
 
@@ -241,7 +241,7 @@ This Streamlit Web Application has been designed for **Supply Chain Engineers** 
 
 ## Experiment 1
 <p align="center">
-  <img align="center" src="static/img/params_1.PNG" width=50%>
+  <img align="center" src="static/img/params_1.PNG" width=75%>
 </p>
 
 ### **Step 1: Scope**
@@ -255,14 +255,14 @@ Click the button to start the calculations
 
 ### **Final Results**
 <p align="center">
-  <img align="center" src="static/img/batch_experiment_final.png" width=50%>
+  <img align="center" src="static/img/batch_experiment_final.png" width=75%>
 </p>
 
 💡 This is the same graph with the one presented in the article 
 
 ## Experiment 2
 <p align="center">
-  <img align="center" src="static/img/params_2.png" width=50%>
+  <img align="center" src="static/img/params_2.png" width=75%>
 </p>
 
 ### **Step 1: Scope**
