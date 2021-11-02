@@ -3,7 +3,7 @@
 In a **Distribution Center (DC)**, walking time from one location to another during picking route can account for 60% to 70% of the operator’s working time. Reducing this walking time is the most effective way to increase your DC overall productivity.
 
 <p align="center">
-  <img align="center" src="static/img/intro_1.gif" width=35%>
+  <img align="center" src="static/img/intro_1.gif" width=50%>
 </p>
 
 I have published a series of articles that propose an approach to  design a model to simulate the impact of several picking processes and routing methods to find optimal order picking by using the **Single Picker Routing Problem (SPRP)** for a two-dimensional warehouse model (axis-x, axis-y).
@@ -31,13 +31,13 @@ This Streamlit Web Application has been designed for **Supply Chain Engineers** 
 Based on your **actual warehouse layout**, storage locations are mapped with **2-D (x, y) coordinates** that will be used to measure walking distance.
 
 <p align="center">
-  <img align="center" src="static/img/warehouse_layout.png" width=35%>
+  <img align="center" src="static/img/warehouse_layout.png" width=50%>
 </p>
 
 Every storage location must be linked to a Reference using Master Data. (For instance, reference #123129 is located in coordinate (xi, yi)). You can then associate every order line to a geographical location for picking.
 
 <p align="center">
-  <img align="center" src="static/img/processing_layout.png" width=35%>
+  <img align="center" src="static/img/processing_layout.png" width=50%>
 </p>
 
 Order lines can be extracted from your WMS Database, this table should be joined with the Master Data table to link every order line to a storage location and its (x, y) coordinate in your warehouse. Extra tables can be added to include more parameters in your model like (Destination, Delivery lead time, Special Packing, ..).
@@ -50,7 +50,7 @@ _For more information and details about calculation: [Medium Article](https://to
 For this study, we will use the example of E-Commerce type DC where items are stored in 4 level shelves. These shelves are organized in multiple rows (Row#: 1 … n) and aisles (Aisle#: A1 … A_n).
 
 <p align="center">
-  <img align="center" src="static/img/trolley.jpeg" width=20%>
+  <img align="center" src="static/img/trolley.jpeg" width=50%>
 </p>
 
 1. Items Dimensions: Small and light dimensions items
@@ -58,7 +58,7 @@ For this study, we will use the example of E-Commerce type DC where items are st
 3. Picking Route: Picking Route starts and ends at the same location
 
 <p align="center">
-  <img align="center" src="static/img/wave_picking.gif" width=35%>
+  <img align="center" src="static/img/wave_picking.gif" width=50%>
 </p>
 
 Scenario 1, the worst in terms of productivity, can be easily optimized because of
@@ -72,7 +72,7 @@ In the article we have built a set of functions needed to run different scenario
 
 **Function:** Calculate distance between two picking locations
 <p align="center">
-  <img align="center" src="static/img/batch_function_1.png" width=35%>
+  <img align="center" src="static/img/batch_function_1.png" width=50%>
 </p>
 This function will be used to calculate the walking distance from a point i (xi, yi) and j (xj, yj).
 
@@ -83,7 +83,7 @@ Objective: return the shortest walking distance between the two potential routes
 
 **Function:** the Next Closest Location
 <p align="center">
-  <img align="center" src="static/img/batch_function_2.png" width=35%>
+  <img align="center" src="static/img/batch_function_2.png" width=50%>
 </p>
 This function will be used to choose the next location among several candidates to continue your picking route.
 
@@ -91,7 +91,7 @@ Objective: return the closest location as the best candidate
 
 **Function:** Create your picking route and calculate the total walking distance
 <p align="center">
-  <img align="center" src="static/img/batch_function_2.png" width=35%>
+  <img align="center" src="static/img/batch_function_2.png" width=50%>
 </p>
 
 This function will be used to create your picking route from a set of orders to prepare.
@@ -121,7 +121,7 @@ To estimate the impact of wave picking strategy on your productivity, we will ru
 2. Record Picking Route per Wave: recording the sequence of locations per route for further analysis
 
 <p align="center">
-  <img align="center" src="static/img/batch_final.png" width=35%>
+  <img align="center" src="static/img/batch_final.png" width=50%>
 </p>
 
 
@@ -130,7 +130,7 @@ _For more information and details about calculation: [Medium Article](https://to
 
 
 <p align="center">
-  <img align="center" src="static/img/cluster_process.png" width=35%>
+  <img align="center" src="static/img/cluster_process.png" width=70%>
 </p>
 
 ### **Idea: Picking Locations Clusters** ###
@@ -145,14 +145,14 @@ For this part we will split the orders in two categories:
 
 #### **Mono-line orders** 
 <p align="center">
-  <img align="center" src="static/img/cluster_walking_distance.png" width=35%>
+  <img align="center" src="static/img/cluster_walking_distance.png" width=50%>
 </p>
 
 _Grouping orders in cluster within n meters of walking distance_
 
 #### **Multi-line orders** 
 <p align="center">
-  <img align="center" src="static/img/cluster_centroids.png" width=35%>
+  <img align="center" src="static/img/cluster_centroids.png" width=50%>
 </p>
 
 _Grouping multi-line orders in cluster (using centroids of picking locations) within n meters of walking distance_
@@ -166,13 +166,13 @@ To sum up, our model construction, see the chart below, we have several steps be
 
 At each step, we have a collection of parameters that can be tuned to improve performance:
 <p align="center">
-  <img align="center" src="static/img/cluster_analysis.png" width=35%>
+  <img align="center" src="static/img/cluster_analysis.png" width=70%>
 </p>
 
 
 #### **Comparing three methods of wave creation**
 <p align="center">
-  <img align="center" src="static/img/wave_creation.png" width=35%>
+  <img align="center" src="static/img/wave_creation.png" width=70%>
 </p>
 
 We’ll start first by assessing the impact of Order Wave processing by clusters of picking locations on total walking distance.
@@ -190,7 +190,7 @@ We’ll be testing three different methods.
 
 #### **Final Results**
 <p align="center">
-  <img align="center" src="static/img/cluster_final_results.png" width=35%>
+  <img align="center" src="static/img/cluster_final_results.png" width=50%>
 </p>
 - Best Performance: Method 3 for 9 orders/Wave with 83% reduction of walking distance
 - Method 2 vs. Method 1: Clustering for mono-line orders reduce the walking distance by 34%
