@@ -256,7 +256,7 @@ Click the button to start the calculations
 
 ### **Final Results**
 <p align="center">
-  <img align="center" src="static/img/batch_experiment_final.png" width=75%>
+  <img align="center" src="static/img/batch_results.png" width=75%>
 </p>
 
 💡 This is the same graph with the one presented in the article 
