@@ -9,11 +9,11 @@ In a **Distribution Center (DC)**, walking time from one location to another dur
 I have published a series of articles that propose an approach to  design a model to simulate the impact of several picking processes and routing methods to find optimal order picking by using the **Single Picker Routing Problem (SPRP)** for a two-dimensional warehouse model (axis-x, axis-y).
 
 SPRP is a specific application of the general **Traveling Salesman Problem (TSP)** answering the question:
-> “Given a list of storage locations and the distances between each pair of locations, what is the shortest possible route that visits each storage location and returns to the depot ?”
+| “Given a list of storage locations and the distances between each pair of locations, what is the shortest possible route that visits each storage location and returns to the depot ?”
 
 SPRP is used to determine the minimum route in the picking process to prepare one or several orders.
 
-I have designed this **Streamlit App** to provide a tool to **Logistics Engineers** for testing these different strategies by only uplooading their own dataset of order line records.
+This repo is containing a ready-to-use **Streamlit App** designed for **Logistics Engineers** to test these different strategies by only uplooading their own dataset of order line records.
 
 ### Understand the theory behind 📜
 - Improve Warehouse Productivity using Order Batching with Python - [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)
@@ -244,13 +244,16 @@ This Streamlit Web Application has been designed for **Supply Chain Engineers** 
   <img align="center" src="static/img/params_1.PNG" width=75%>
 </p>
 
-### **Step 1: Scope**
+### **Step 1:** Scope
+
 As the computation time can increase exponentially with the size of the dataset _(optimization can be done)_ you can ask the model to take only the n thousands first lines for analysis.
 
-### **Step 2: Fix the range of orders/wave to simulate**
+### **Step 2:** Fix the range of orders/wave to simulate
+
 In the picture below we ask the model to run a loop testing scenarios with the number of orders per wave varying between 1 to 10
 
-### **Step 3: SIMULATION 1: START CALCULATION**
+### **Step 3:** START CALCULATION
+
 Click the button to start the calculations
 
 ### **Final Results**
@@ -262,13 +265,15 @@ Click the button to start the calculations
 
 ## Experiment 2
 <p align="center">
-  <img align="center" src="static/img/params_2.png" width=75%>
+  <img align="center" src="static/img/params_2.PNG" width=75%>
 </p>
 
-### **Step 1: Scope**
+### **Step 1:** Scope
+
 As the computation time can increase exponentially with the size of the dataset _(optimization can be done)_ you can ask the model to take only the n thousands first lines for analysis.
 
-### **Step 2: SIMULATION 1: START CALCULATION**
+### **Step 2:** START CALCULATION
+
 Click the button to start the calculations
 
 ### **Final Results**

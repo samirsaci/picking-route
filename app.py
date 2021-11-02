@@ -100,7 +100,7 @@ if start_1:
 
 # Simulation 2: Order Batch using Spatial Clustering 
 # SCOPE SIZE
-st.header("**🥈 Impact of the wave size in orders (Orders/Wave) **")
+st.header("**🥈 Impact of the order batching method **")
 st.subheader('''
         🛠️ HOW MANY ORDER LINES DO YOU WANT TO INCLUDE IN YOUR ANALYSIS?
     ''')
