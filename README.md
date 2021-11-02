@@ -5,7 +5,7 @@ In a **Distribution Center (DC)**, walking time from one location to another dur
 <p align="center">
   <img align="center" src="static/img/intro_1.gif" width=75%>
 </p>
-<p align="center"><b>Scenario 1:<b> Picking routes with 1 order picked per wave</p>
+<p align="center"><b>Scenario 1:</b> Picking routes with 1 order picked per wave</p>
 
 
 I have published a series of articles that propose an approach to  design a model to simulate the impact of several picking processes and routing methods to find optimal order picking by using the **Single Picker Routing Problem (SPRP)** for a two-dimensional warehouse model (axis-x, axis-y).
@@ -29,7 +29,6 @@ Based on your **actual warehouse layout**, storage locations are mapped with **2
 
 <p align="center">
   <img align="center" src="static/img/warehouse_layout.png" width=75%>
-  
 </p>
 <p align="center">Warehouse Layout with 2D Coordinates</p>
 
@@ -69,7 +68,7 @@ Scenario 1, the worst in terms of productivity, can be easily optimized because 
   <img align="center" src="static/img/wave_picking.gif" width=75%>
   
 </p>
-<p align="center"><b>Scenario 2:<b> Wave Picking applied to Scenario 1</p>
+<p align="center"><b>Scenario 2:</b> Wave Picking applied to Scenario 1</p>
 
 The first intuitive way to optimize this process is to combine these three orders in one picking route — this strategy is commonly called Wave Picking.
 
@@ -85,7 +84,7 @@ In the article I have built a set of functions needed to run different scenarios
   <img align="center" src="static/img/batch_function_1.png" width=75%>
   
 </p>
-<p align="center"><b>Function:<b> Different routes between two storage locations in the warehouse</p>
+<p align="center"><b>Function:</b> Different routes between two storage locations in the warehouse</p>
 
 
 This function will be used to calculate the walking distance from a point i (xi, yi) and j (xj, yj).
@@ -100,7 +99,7 @@ Objective: return the shortest walking distance between the two potential routes
   <img align="center" src="static/img/batch_function_2.png" width=75%>
   
 </p>
-<p align="center"><b>Function:<b> Next Storage Location Scenario</p>
+<p align="center"><b>Function:</b> Next Storage Location Scenario</p>
 
 
 This function will be used to choose the next location among several candidates to continue your picking route.
@@ -138,7 +137,7 @@ To estimate the impact of wave picking strategy on your productivity, we will ru
   <img align="center" src="static/img/batch_final.png" width=100%>
   
 </p>
-<p align="center"><b>Experiment 1:<b> Results for 5,000 order lines with a ratio from 1 to 9 orders per route</p>
+<p align="center"><b>Experiment 1:</b> Results for 5,000 order lines with a ratio from 1 to 9 orders per route</p>
 
 
 ## 🧮**Experiment 2: Impacts of orders batching using spatial clusters of picking locations?**
