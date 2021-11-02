@@ -1,140 +1,200 @@
-# Automate ABC Analysis & Product Segmentation with Streamlit 📈
-*A statistical methodology to segment your products based on turnover and demand variability using an automated solution with a web application designed with the framework Streamlit*
+# Improve Warehouse Productivity using Order Batching with Python 📦
+
+In a **Distribution Center (DC)**, walking time from one location to another during picking route can account for 60% to 70% of the operator’s working time. Reducing this walking time is the most effective way to increase your DC overall productivity.
 
 <p align="center">
-  <img align="center" src="images/streamlit_capture.PNG" width=75%>
+  <img align="center" src="static/img/intro_1.gif" width=35%>
 </p>
 
-Product segmentation refers to the activity of grouping products that have similar characteristics and serve a similar market. It is usually related to marketing _(Sales Categories)_ or manufacturing _(Production Processes)_. However as a **Supply Chaine Engineer** your focus is not on the product itself but more on the complexity of managing its flow.
+I have published a series of articles that propose an approach to  design a model to simulate the impact of several picking processes and routing methods to find optimal order picking by using the **Single Picker Routing Problem (SPRP)** for a two-dimensional warehouse model (axis-x, axis-y).
 
-Your want to understand the sales volumes distribution (fast/slow movers) and demand variability to optimize your production, storage and delivery operations to ensure the best service level by considering: 
-- The highest contribution to your total volume: ABC Analysis
-- The most unstable demand: Demand Variability
+SPRP is a specific application of the general **Traveling Salesman Problem (TSP)** answering the question:
+> “Given a list of storage locations and the distances between each pair of locations, what is the shortest possible route that visits each storage location and returns to the depot ?”
 
-I have designed this **Streamlit App** to provide a tool to **Supply Chain Engineers** for Product Segmentation, with a focus on retail products, of their portofolio considering the complexity of the demand and the volumes contribution of each item.
+SPRP is used to determine the minimum route in the picking process to prepare one or several orders.
+
+I have designed this **Streamlit App** to provide a tool to **Logistics Engineers** for testing these different strategies by only uplooading their own dataset of order line records.
 
 ### Understand the theory behind 📜
-In this [Medium Article](https://towardsdatascience.com/product-segmentation-for-retail-with-python-c85cc0930f9a), you can find details about the theory used to build this tool. 
+- Improve Warehouse Productivity using Order Batching with Python - [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)
+- Improve Warehouse Productivity using Spatial Clustering with Python Scipy - [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)
+- Design Pathfinding Algorithm using Google AI to Improve Warehouse Productivity - [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-3-google-ai-for-sprp-308c258cb66f)
 
-# Access the application 🖥️ 
-> Access it here: [Product Segmentation for Retail](https://share.streamlit.io/samirsaci/segmentation/main/segmentation.py)
 
-## **Step 0: Why should you use it?**
-This Streamlit Web Application has been designed for Supply Chain Engineers to support them in their Inventory Management. It will help you to automate product segmentation using statistics.
+# Use the application 🖥️ 
 
-## **Step 1: What do you want to do?**
-You have two ways to use this application:
-- 🖥️ Look at the results computed by the model using the pre-loaded dataset: in that case you just need to scroll to see the visuals and the analyses
-OR
-- 💾 Upload your dataset of sales records that includes columns related to:
-  - **Item master data**
-  _For example: SKU ID, Category, Sub-Category, Store ID_
-  - **Date of the sales**:
-  _For example: Day, Week, Month, Year_
-  - **Quantity or value**: this measure will be used for the ABC analysis
-  _For example: units, cartons, pallets or euros/dollars/your local currency_
+## **Why should you use it?**
+This Streamlit Web Application has been designed for **Supply Chain Engineers** to help them simulating the impact on picking route optimization in the total distance of their picking operators.
 
-## **Step 2: Prepare the analysis**
+## **Prepare order lines datasets with Warehouse Layout Information**
 
-### **1. 💾 Upload your dataset of sales records**
-<p align="center">
-  <img align="center" src="images/step_1.PNG" width=40%>
-</p>
-
-💡 _Please make sure that you dataset format is csv with a file size lower than 200MB. If you want to increase the size, you'd better copy this repository and deploy the app locally following the instructions below._
-
-### **2. 📅 [Parameters] select the columns for the date (day, week, year) and the values (quantity, $)**
-<p align="center">
-  <img align="center" src="images/step_2.PNG" width=75%>
-</p>
-
-💡 _If you have several columns for the date (day, week, month) and for the values (quantity, amount) you can use only one column per category for each run of calculation._
-
-### **3. 📉 [Parameters] select all the columns you want to keep in the analysis**
-<p align="center">
-  <img align="center" src="images/step_3.PNG" width=75%>
-</p>
-
-💡 _This step will basically help you to remove the columns that you do not need for your analysis to increase the speed of computation and reduce the usage of ressources._
-
-### **4. 🏬 [Parameters] select all the related to product master data (SKU ID, FAMILIY, CATEGORY, STORE LOCATION)**
-<p align="center">
-  <img align="center" src="images/step_4.PNG" width=75%>
-</p>
-
-💡 _In this step you will show at what granularity you want to do your analysis. For example it can be at:_
-  - _Item, Store level: that means the same item in two stores will represent two SKU_
-  - _Item ID level: that means you group the sales of your item in all stores_
-
-### **5. 🛍️ [Parameters] select one feature you want to use for analysis by family**
-<p align="center">
-  <img align="center" src="images/step_5.PNG" width=75%>
-</p>
-
-💡 _This feature will be used to plot the repartition of (A, B, C) product by family_
-
-### **6. 🖱️ Click on Start Calculation? to launch the analysis**
-<p align="center">
-  <img align="center" src="images/step_6.PNG" width=75%>
-</p>
-
-💡 _This feature will be used to plot the repartition of (A, B, C) product by family_
-
-# Get insights about your sales records 💡
-
-### **Pareto Analysis**
+Based on your **actual warehouse layout**, storage locations are mapped with **2-D (x, y) coordinates** that will be used to measure walking distance.
 
 <p align="center">
-  <img align="center" src="images/pareto.PNG" width=75%>
+  <img align="center" src="static/img/warehouse_layout.png" width=35%>
 </p>
 
-**INSIGHTS:** 
-1. How many SKU represent 80% of your total sales?
-2. How much sales represent 20% of your SKUs?
-
-_For more information about the theory behind the pareto law and its application in Supply Chain Management: [Pareto Principle for Warehouse Layout Optimization](https://towardsdatascience.com/reduce-warehouse-space-with-the-pareto-principle-using-python-e722a6babe0e)_
-
-### **ABC Analysis with Demand Variability**
+Every storage location must be linked to a Reference using Master Data. (For instance, reference #123129 is located in coordinate (xi, yi)). You can then associate every order line to a geographical location for picking.
 
 <p align="center">
-  <img align="center" src="images/abc_analysis.PNG" width=75%>
+  <img align="center" src="static/img/processing_layout.png" width=35%>
 </p>
 
-**QUESTIONS: WHAT IS THE PROPORTION OF?** 
-1. **LOW IMPORTANCE SKUS**: C references
-2. **STABLE DEMAND SKUS**: A and B SKUs with a coefficient of variation below 1 
-3. **HIGH IMPORTANCE SKUS**: A and B SKUS with a high coefficient of variation
+Order lines can be extracted from your WMS Database, this table should be joined with the Master Data table to link every order line to a storage location and its (x, y) coordinate in your warehouse. Extra tables can be added to include more parameters in your model like (Destination, Delivery lead time, Special Packing, ..).
 
-Your inventory management strategies will be impacted by this split:
-- A minimum effort should be put in **LOW IMPORTANCE SKUS**
-- Automated rules with a moderate attention for **STABLE SKUS**
-- Complex replenishment rules and careful attention for **HIGH IMPORTANCE SKUS**
+## **Experiment 1: What is the impact of wave picking in the total walking distance?**
+_For more information and details about calculation: [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)_
 
+### Problem Statement
 
-_For more information: [Medium Article](https://towardsdatascience.com/product-segmentation-for-retail-with-python-c85cc0930f9a)_
+For this study, we will use the example of E-Commerce type DC where items are stored in 4 level shelves. These shelves are organized in multiple rows (Row#: 1 … n) and aisles (Aisle#: A1 … A_n).
 
 <p align="center">
-  <img align="center" src="images/split_category.PNG" width=75%>
+  <img align="center" src="static/img/trolley.jpeg" width=20%>
 </p>
 
-**QUESTIONS:** 
-1. What is the split of SKUS by FAMILY?
-2. What is the split of SKUS by ABC class in each FAMILY?
-
-
-### **Normality Test**
+1. Items Dimensions: Small and light dimensions items
+2. Picking Cart: lightweight picking cart with a capacity of 10 orders
+3. Picking Route: Picking Route starts and ends at the same location
 
 <p align="center">
-  <img align="center" src="images/normality.PNG" width=75%>
+  <img align="center" src="static/img/wave_picking.gif" width=35%>
 </p>
 
-**QUESTION:** 
-- Which SKUs have a sales distribution that follows a normal distribution?
+Scenario 1, the worst in terms of productivity, can be easily optimized because of
+- Locations: Orders #1 and #2 have common picking locations
+- Zones: orders have picking locations in a common zone
+- Single-line Orders: items_picked/walking_distance efficiency is very low
 
-Many inventory rules and safety stock formula can be used only if the sales distribution of your item is following a normal distribution. Thefore, it's better to know the % of your portofolio that can be managed easily.
+### Simulation 
 
-_For more information: [Inventory Management for Retail — Stochastic Demand](https://towardsdatascience.com/inventory-management-for-retail-stochastic-demand-3020a43d1c14)_
+In the article we have built a set of functions needed to run different scenarios and simulate the pickers walking distance.
 
+**Function:** Calculate distance between two picking locations
+<p align="center">
+  <img align="center" src="static/img/batch_function_1.png" width=35%>
+</p>
+This function will be used to calculate the walking distance from a point i (xi, yi) and j (xj, yj).
+
+Objective: return the shortest walking distance between the two potential routes from point i to point j.
+> Parameters
+- y_low : lowest point of your alley (y-axis)
+- y_high : highest point of your alley (y-axis)
+
+**Function:** the Next Closest Location
+<p align="center">
+  <img align="center" src="static/img/batch_function_2.png" width=35%>
+</p>
+This function will be used to choose the next location among several candidates to continue your picking route.
+
+Objective: return the closest location as the best candidate
+
+**Function:** Create your picking route and calculate the total walking distance
+<p align="center">
+  <img align="center" src="static/img/batch_function_2.png" width=35%>
+</p>
+
+This function will be used to create your picking route from a set of orders to prepare.
+- Input: a list of (x, y) locations based on items to be picked for this route
+- Output: an ordered sequence of locations covered and total walking distance
+
+
+**Function:** Create batches of n orders to be picked at the same time
+- Input: order lines data frame (df_orderlines), number of orders per wave (orders_number)
+- Output: data frame mapped with wave number (Column: WaveID), the total number of waves (waves_number)
+
+
+**Function:** listing picking locations of wave_ID picking route
+- Input: order lines data frame (df_orderlines) and wave number (waveID)
+- Output: list of locations i(xi, yi) included in your picking route
+
+### **Results and Next Steps**
+
+After setting up all necessary functions to measure picking distance, we can now test our picking route strategy with picking order lines.
+
+Here, we first decided to start with a very simple approach
+- Orders Waves: orders are grouped by chronological order of receiving time from OMS ( TimeStamp)
+- Picking Route: picking route strategy is following the Next Closest Location logic
+
+To estimate the impact of wave picking strategy on your productivity, we will run several simulations with a gradual number of orders per wave:
+1. Measure Total Walking Distance: how much walking distance is reduced when the number of orders per route is increased?
+2. Record Picking Route per Wave: recording the sequence of locations per route for further analysis
+
+<p align="center">
+  <img align="center" src="static/img/batch_final.png" width=35%>
+</p>
+
+
+## **Experiment 2 - What is the impact of grouping orders by spatial clusters of picking locations?**
+_For more information and details about calculation: [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)_
+
+
+<p align="center">
+  <img align="center" src="static/img/cluster_process.png" width=35%>
+</p>
+
+### **Idea: Picking Locations Clusters** ###
+
+Group picking locations by clusters to reduce the walking distance for each picking route. _(Example: the maximum walking distance between two locations is <15 m)_
+
+Spatial clustering is the task of grouping together a set of points in a way that objects in the same cluster are more similar to each other than to objects in other clusters.
+
+For this part we will split the orders in two categories:
+- Mono-line orders: they can be associated to a unique picking locations 
+- Multi-line orders: that are associated with several picking locations
+
+#### **Mono-line orders** 
+<p align="center">
+  <img align="center" src="static/img/cluster_walking_distance.png" width=35%>
+</p>
+
+_Grouping orders in cluster within n meters of walking distance_
+
+#### **Multi-line orders** 
+<p align="center">
+  <img align="center" src="static/img/cluster_centroids.png" width=35%>
+</p>
+
+_Grouping multi-line orders in cluster (using centroids of picking locations) within n meters of walking distance_
+
+
+### **Model Simulation** ###
+
+#### **Methodology** 
+
+To sum up, our model construction, see the chart below, we have several steps before Picking Routes Creation using Wave Processing.
+
+At each step, we have a collection of parameters that can be tuned to improve performance:
+<p align="center">
+  <img align="center" src="static/img/cluster_analysis.png" width=35%>
+</p>
+
+
+#### **Comparing three methods of wave creation**
+<p align="center">
+  <img align="center" src="static/img/wave_creation.png" width=35%>
+</p>
+
+We’ll start first by assessing the impact of Order Wave processing by clusters of picking locations on total walking distance.
+
+We’ll be testing three different methods.
+- Method 1: we do not apply clustering (i.e Initial Scenario)
+- Method 2: we apply clustering on single-line orders only
+- Method 3: we apply clustering to single-line orders and centroids of multiline orders.
+
+
+#### **Parameters of Simulation**
+- Order lines: 20,000 Lines
+- Distance Threshold: Maximum distance between two picking locations (distance_threshold = 35 m)
+- Orders per Wave: orders_number in [1, 9]
+
+#### **Final Results**
+<p align="center">
+  <img align="center" src="static/img/cluster_final_results.png" width=35%>
+</p>
+- Best Performance: Method 3 for 9 orders/Wave with 83% reduction of walking distance
+- Method 2 vs. Method 1: Clustering for mono-line orders reduce the walking distance by 34%
+- Method 3 vs. Method 2: Clustering for mono-line orders reduce the walking distance by 10%
 
 # Build the application locally 🏗️ 
 

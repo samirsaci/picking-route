@@ -111,7 +111,7 @@ with col1:
 with col2:
 	lines_2 = 1000 * n_ 
 	st.write('''🛠️{:,} \
-		order lines'''.format(lines_number))
+		order lines'''.format(lines_2))
 # START CALCULATION
 start_2 = False
 if st.checkbox('SIMULATION 2: START CALCULATION',key='show_2', value=False):

@@ -13,6 +13,10 @@ https://code.visualstudio.com/docs/remote/wsl
 - Donner les droits admins pour ecrire et dl des librairies
 sudo chown -R samirs streamlit_prophet
 
+# Installer pip
+sudo apt-get update
+sudo apt-get install python3-pip
+
 # Move local directory of Windows to Local Linux
 mkdir app
 cp -R /mnt/c/Data/62-\ Projects/24-\ Articles/25-\ Improve\ Warehouse\ Productivity/App ~/app
@@ -29,9 +33,9 @@ git push -u origin main
 pip install virtualenv
 python3.8 -m virtualenv venv
 source venv/bin/activate
+pip install -r requirements.txt
 
 # Activate Streamlit
-streamlit run segmentation.py --server.address 0.0.0.0
 streamlit run app.py --server.address 0.0.0.0
 
 # SEGMENTATION TO DO
