@@ -4,6 +4,7 @@ In a **Distribution Center (DC)**, walking time from one location to another dur
 
 <p align="center">
   <img align="center" src="static/img/intro_1.gif" width=75%>
+    <b>Scenario 1:<b> Picking routes with 1 order picked per wave
 </p>
 
 I have published a series of articles that propose an approach to  design a model to simulate the impact of several picking processes and routing methods to find optimal order picking by using the **Single Picker Routing Problem (SPRP)** for a two-dimensional warehouse model (axis-x, axis-y).
@@ -21,23 +22,25 @@ This repo is containing a ready-to-use **Streamlit App** designed for **Logistic
 
 # Picking Route Optimization 🚶‍♂️ 
 
-## 💾**Initial: prepare order lines datasets with picking locations**
+## 💾 **Initial: prepare order lines datasets with picking locations**
 
 Based on your **actual warehouse layout**, storage locations are mapped with **2-D (x, y) coordinates** that will be used to measure walking distance.
 
 <p align="center">
   <img align="center" src="static/img/warehouse_layout.png" width=75%>
+  Warehouse Layout with 2D Coordinates
 </p>
 
 Every storage location must be linked to a Reference using Master Data. (For instance, reference #123129 is located in coordinate (xi, yi)). You can then associate every order line to a geographical location for picking.
 
 <p align="center">
   <img align="center" src="static/img/processing_layout.png" width=75%>
+   Database Schema
 </p>
 
 Order lines can be extracted from your WMS Database, this table should be joined with the Master Data table to link every order line to a storage location and its (x, y) coordinate in your warehouse. Extra tables can be added to include more parameters in your model like (Destination, Delivery lead time, Special Packing, ..).
 
-## 🧪**Experiment 1: Inmpact of wave picking in the pickers walking distance?**
+## 🧪 **Experiment 1: Impacts of wave picking on the pickers walking distance?**
 _For more information and details about calculation: [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)_
 
 ### ✔️ Problem Statement
@@ -46,20 +49,28 @@ For this study, we will use the example of E-Commerce type DC where items are st
 
 <p align="center">
   <img align="center" src="static/img/trolley.jpeg" width=35%>
+  Different routes between two storage locations in the warehouse
 </p>
 
 1. Items Dimensions: Small and light dimensions items
 2. Picking Cart: lightweight picking cart with a capacity of 10 orders
 3. Picking Route: Picking Route starts and ends at the same location
 
-<p align="center">
-  <img align="center" src="static/img/wave_picking.gif" width=75%>
-</p>
-
 Scenario 1, the worst in terms of productivity, can be easily optimized because of
 - Locations: Orders #1 and #2 have common picking locations
 - Zones: orders have picking locations in a common zone
 - Single-line Orders: items_picked/walking_distance efficiency is very low
+
+<p align="center">
+  <img align="center" src="static/img/wave_picking.gif" width=75%>
+  <b>Scenario 2:<b> Wave Picking applied to Scenario 1
+</p>
+
+
+The first intuitive way to optimize this process is to combine these three orders in one picking route — this strategy is commonly called Wave Picking.
+
+We are going to build a model to simulate the impact of several Wave Picking strategies in the total walking distance for a specific set of orders to prepare.
+
 
 ### 📊 Simulation 
 
@@ -68,6 +79,7 @@ In the article I have built a set of functions needed to run different scenarios
 **Function:** Calculate distance between two picking locations
 <p align="center">
   <img align="center" src="static/img/batch_function_1.png" width=75%>
+  <b>Function:<b> Different routes between two storage locations in the warehouse
 </p>
 This function will be used to calculate the walking distance from a point i (xi, yi) and j (xj, yj).
 
@@ -79,15 +91,13 @@ Objective: return the shortest walking distance between the two potential routes
 **Function:** the Next Closest Location
 <p align="center">
   <img align="center" src="static/img/batch_function_2.png" width=75%>
+  <b>Function:<b> Next Storage Location Scenario
 </p>
+
 This function will be used to choose the next location among several candidates to continue your picking route.
 
 Objective: return the closest location as the best candidate
 
-**Function:** Create your picking route and calculate the total walking distance
-<p align="center">
-  <img align="center" src="static/img/batch_function_2.png" width=75%>
-</p>
 
 This function will be used to create your picking route from a set of orders to prepare.
 - Input: a list of (x, y) locations based on items to be picked for this route
@@ -103,7 +113,7 @@ This function will be used to create your picking route from a set of orders to 
 - Input: order lines data frame (df_orderlines) and wave number (waveID)
 - Output: list of locations i(xi, yi) included in your picking route
 
-### ☑️**Results and Next Steps**
+### ☑️ **Results and Next Steps**
 
 After setting up all necessary functions to measure picking distance, we can now test our picking route strategy with picking order lines.
 
@@ -117,15 +127,18 @@ To estimate the impact of wave picking strategy on your productivity, we will ru
 
 <p align="center">
   <img align="center" src="static/img/batch_final.png" width=100%>
+  <b>Experiment 1:<b> Results for 5,000 order lines with a ratio from 1 to 9 orders per route
 </p>
 
 
-## 🧮**Experiment 2 - What is the impact of grouping orders by spatial clusters of picking locations?**
+
+## 🧮**Experiment 2: Impacts of orders batching using spatial clusters of picking locations?**
 _For more information and details about calculation: [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)_
 
 
 <p align="center">
   <img align="center" src="static/img/cluster_process.png" width=100%>
+  <b>Order Lines Processing</b> for Order Wave Picking using Clustering by Picking Location
 </p>
 
 ### 💡**Idea: Picking Locations Clusters** ###
@@ -141,6 +154,7 @@ For this part we will split the orders in two categories:
 #### **Mono-line orders** 
 <p align="center">
   <img align="center" src="static/img/cluster_walking_distance.png" width=100%>
+  Left [Clustering using Walking Distance] / Right [Clustering using Euclidian Distance] 
 </p>
 
 _Grouping orders in cluster within n meters of walking distance_
@@ -148,6 +162,7 @@ _Grouping orders in cluster within n meters of walking distance_
 #### **Multi-line orders** 
 <p align="center">
   <img align="center" src="static/img/cluster_centroids.png" width=75%>
+  <b>Example: </b>Centroid of three Picking Locations
 </p>
 
 _Grouping multi-line orders in cluster (using centroids of picking locations) within n meters of walking distance_
@@ -162,12 +177,13 @@ To sum up, our model construction, see the chart below, we have several steps be
 At each step, we have a collection of parameters that can be tuned to improve performance:
 <p align="center">
   <img align="center" src="static/img/cluster_analysis.png" width=100%>
+  <b>Methodology: </b>Model Construction with Parameters
 </p>
-
 
 #### **Comparing three methods of wave creation**
 <p align="center">
   <img align="center" src="static/img/wave_creation.png" width=75%>
+  <b>Methodology: </b>Three Methods for Wave Processing
 </p>
 
 We’ll start first by assessing the impact of Order Wave processing by clusters of picking locations on total walking distance.
@@ -185,6 +201,7 @@ We’ll be testing three different methods:
 #### **Final Results**
 <p align="center">
   <img align="center" src="static/img/cluster_final_results.png" width=100%>
+  <b>Test 1:</b> 20,000 Order Lines / 35 m distance Threshold
 </p>
 - Best Performance: Method 3 for 9 orders/Wave with 83% reduction of walking distance
 - Method 2 vs. Method 1: Clustering for mono-line orders reduce the walking distance by 34%
@@ -218,9 +235,10 @@ Because the ressources provided by Streamlit cloud or Heroku are limited, I woul
 
     streamlit run app.py --server.address 0.0.0.0 
 
-### Click on the Network URL in the shell   
+### Click on the URL   
   <p align="center">
     <img align="center" src="static/img/launch_streamlit.png" width=50%>
+    <b>Instructions:</b> Click on the URL  
   </p>
   
 > -> Enjoy!
@@ -240,6 +258,7 @@ This Streamlit Web Application has been designed for **Supply Chain Engineers** 
 ## 🔬 Experiment 1
 <p align="center">
   <img align="center" src="static/img/params_1.PNG" width=75%>
+  <b>Experiment 1:</b> Parameters
 </p>
 
 ### **Step 1:** Scope
@@ -257,6 +276,7 @@ Click the button to start the calculations
 ### **Final Results**
 <p align="center">
   <img align="center" src="static/img/batch_results.png" width=75%>
+    <b>Experiment 1:</b> Final Results
 </p>
 
 💡 This is the same graph with the one presented in the article 
@@ -264,6 +284,7 @@ Click the button to start the calculations
 ## 🧪 Experiment 2
 <p align="center">
   <img align="center" src="static/img/params_2.PNG" width=75%>
+  <b>Experiment 2:</b> Parameters
 </p>
 
 ### **Step 1:** Scope
@@ -277,6 +298,7 @@ Click the button to start the calculations
 ### **Final Results**
 <p align="center">
   <img align="center" src="static/img/cluster_final_results.png" width=75%>
+  <b>Experiment 2:</b> Final Results
 </p>
 
 💡 This is the same graph with the one presented in the article 

@@ -29,6 +29,9 @@ git config --global user.name "Samir Saci"
 git remote add origin 'https://github.com/samirsaci/segmentation.git'
 git push -u origin main
 
+# Update Local Directory from repo
+git pull --all
+
 # Install pipenv
 pip install virtualenv
 python3.8 -m virtualenv venv
