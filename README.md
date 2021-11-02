@@ -21,23 +21,20 @@ I have designed this **Streamlit App** to provide a tool to **Logistics Engineer
 - Design Pathfinding Algorithm using Google AI to Improve Warehouse Productivity - [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-3-google-ai-for-sprp-308c258cb66f)
 
 
-# Use the application 🖥️ 
+# Picking Route Optimization to reduce Walking Distance 🚶‍♂️ 
 
-## **Why should you use it?**
-This Streamlit Web Application has been designed for **Supply Chain Engineers** to help them simulating the impact on picking route optimization in the total distance of their picking operators.
-
-## **Prepare order lines datasets with Warehouse Layout Information**
+## **Initial Step: Prepare order lines datasets with Warehouse Layout Information**
 
 Based on your **actual warehouse layout**, storage locations are mapped with **2-D (x, y) coordinates** that will be used to measure walking distance.
 
 <p align="center">
-  <img align="center" src="static/img/warehouse_layout.png" width=50%>
+  <img align="center" src="static/img/warehouse_layout.png" width=75%>
 </p>
 
 Every storage location must be linked to a Reference using Master Data. (For instance, reference #123129 is located in coordinate (xi, yi)). You can then associate every order line to a geographical location for picking.
 
 <p align="center">
-  <img align="center" src="static/img/processing_layout.png" width=50%>
+  <img align="center" src="static/img/processing_layout.png" width=75%>
 </p>
 
 Order lines can be extracted from your WMS Database, this table should be joined with the Master Data table to link every order line to a storage location and its (x, y) coordinate in your warehouse. Extra tables can be added to include more parameters in your model like (Destination, Delivery lead time, Special Packing, ..).
@@ -58,7 +55,7 @@ For this study, we will use the example of E-Commerce type DC where items are st
 3. Picking Route: Picking Route starts and ends at the same location
 
 <p align="center">
-  <img align="center" src="static/img/wave_picking.gif" width=60%>
+  <img align="center" src="static/img/wave_picking.gif" width=75%>
 </p>
 
 Scenario 1, the worst in terms of productivity, can be easily optimized because of
@@ -68,11 +65,11 @@ Scenario 1, the worst in terms of productivity, can be easily optimized because 
 
 ### Simulation 
 
-In the article we have built a set of functions needed to run different scenarios and simulate the pickers walking distance.
+In the article I have built a set of functions needed to run different scenarios and simulate the pickers walking distance.
 
 **Function:** Calculate distance between two picking locations
 <p align="center">
-  <img align="center" src="static/img/batch_function_1.png" width=50%>
+  <img align="center" src="static/img/batch_function_1.png" width=75%>
 </p>
 This function will be used to calculate the walking distance from a point i (xi, yi) and j (xj, yj).
 
@@ -83,7 +80,7 @@ Objective: return the shortest walking distance between the two potential routes
 
 **Function:** the Next Closest Location
 <p align="center">
-  <img align="center" src="static/img/batch_function_2.png" width=50%>
+  <img align="center" src="static/img/batch_function_2.png" width=75%>
 </p>
 This function will be used to choose the next location among several candidates to continue your picking route.
 
@@ -91,7 +88,7 @@ Objective: return the closest location as the best candidate
 
 **Function:** Create your picking route and calculate the total walking distance
 <p align="center">
-  <img align="center" src="static/img/batch_function_2.png" width=50%>
+  <img align="center" src="static/img/batch_function_2.png" width=75%>
 </p>
 
 This function will be used to create your picking route from a set of orders to prepare.
@@ -121,7 +118,7 @@ To estimate the impact of wave picking strategy on your productivity, we will ru
 2. Record Picking Route per Wave: recording the sequence of locations per route for further analysis
 
 <p align="center">
-  <img align="center" src="static/img/batch_final.png" width=50%>
+  <img align="center" src="static/img/batch_final.png" width=100%>
 </p>
 
 
@@ -130,7 +127,7 @@ _For more information and details about calculation: [Medium Article](https://to
 
 
 <p align="center">
-  <img align="center" src="static/img/cluster_process.png" width=70%>
+  <img align="center" src="static/img/cluster_process.png" width=100%>
 </p>
 
 ### **Idea: Picking Locations Clusters** ###
@@ -145,14 +142,14 @@ For this part we will split the orders in two categories:
 
 #### **Mono-line orders** 
 <p align="center">
-  <img align="center" src="static/img/cluster_walking_distance.png" width=50%>
+  <img align="center" src="static/img/cluster_walking_distance.png" width=100%>
 </p>
 
 _Grouping orders in cluster within n meters of walking distance_
 
 #### **Multi-line orders** 
 <p align="center">
-  <img align="center" src="static/img/cluster_centroids.png" width=50%>
+  <img align="center" src="static/img/cluster_centroids.png" width=75%>
 </p>
 
 _Grouping multi-line orders in cluster (using centroids of picking locations) within n meters of walking distance_
@@ -166,13 +163,13 @@ To sum up, our model construction, see the chart below, we have several steps be
 
 At each step, we have a collection of parameters that can be tuned to improve performance:
 <p align="center">
-  <img align="center" src="static/img/cluster_analysis.png" width=70%>
+  <img align="center" src="static/img/cluster_analysis.png" width=100%>
 </p>
 
 
 #### **Comparing three methods of wave creation**
 <p align="center">
-  <img align="center" src="static/img/wave_creation.png" width=70%>
+  <img align="center" src="static/img/wave_creation.png" width=100%>
 </p>
 
 We’ll start first by assessing the impact of Order Wave processing by clusters of picking locations on total walking distance.
@@ -190,7 +187,7 @@ We’ll be testing three different methods.
 
 #### **Final Results**
 <p align="center">
-  <img align="center" src="static/img/cluster_final_results.png" width=50%>
+  <img align="center" src="static/img/cluster_final_results.png" width=100%>
 </p>
 - Best Performance: Method 3 for 9 orders/Wave with 83% reduction of walking distance
 - Method 2 vs. Method 1: Clustering for mono-line orders reduce the walking distance by 34%
@@ -224,10 +221,62 @@ We’ll be testing three different methods.
 
 ### Click on the Network URL in the shell   
   <p align="center">
-    <img align="center" src="images/network.PNG" width=50%>
+    <img align="center" src="static/img/network.PNG" width=50%>
   </p>
   
 > -> Enjoy!
+
+# Use the application 🖥️ 
+> Access it here: 
+
+## **Why should you use it?**
+This Streamlit Web Application has been designed for **Supply Chain Engineers** to help them simulating the impact on picking route optimization in the total distance of their picking operators.
+
+## **Load the data**
+
+- You can use the dataset located in the folder 
+ In/df_lines.csv
+- You can build your own dataset following the step of ('Initial Step') above
+
+## Experiment 1
+<p align="center">
+  <img align="center" src="static/img/params_1.PNG" width=50%>
+</p>
+
+### ** Step 1: Scope**
+As the computation time can increase exponentially with the size of the dataset _(optimization can be done)_ you can ask the model to take only the n thousands first lines for analysis.
+
+### **Step 2: Fix the range of orders/wave to simulate**
+In the picture below we ask the model to run a loop testing scenarios with the number of orders per wave varying between 1 to 10
+
+### **Step 3: SIMULATION 1: START CALCULATION**
+Click the button to start the calculations
+
+### **Final Results**
+<p align="center">
+  <img align="center" src="static/img/batch_experiment_final.png" width=50%>
+</p>
+
+💡 This is the same graph with the one presented in the article 
+
+## Experiment 1
+<p align="center">
+  <img align="center" src="static/img/params_2.png" width=50%>
+</p>
+
+### ** Step 1: Scope**
+As the computation time can increase exponentially with the size of the dataset _(optimization can be done)_ you can ask the model to take only the n thousands first lines for analysis.
+
+### **Step 2: SIMULATION 1: START CALCULATION**
+Click the button to start the calculations
+
+### **Final Results**
+<p align="center">
+  <img align="center" src="static/img/cluster_final_results.png" width=75%>
+</p>
+
+💡 This is the same graph with the one presented in the article 
+
 # About me 🤓
 Senior Supply Chain Engineer with an international experience working on Logistics and Transportation operations. \
 Have a look at my portfolio: [Data Science for Supply Chain Portfolio](https://samirsaci.com) \
