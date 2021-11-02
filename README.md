@@ -174,15 +174,14 @@ At each step, we have a collection of parameters that can be tuned to improve pe
 
 We’ll start first by assessing the impact of Order Wave processing by clusters of picking locations on total walking distance.
 
-We’ll be testing three different methods.
+We’ll be testing three different methods:
 - Method 1: we do not apply clustering (i.e Initial Scenario)
 - Method 2: we apply clustering on single-line orders only
-- Method 3: we apply clustering to single-line orders and centroids of multiline orders.
-
+- Method 3: we apply clustering to single-line orders and centroids of multiline orders
 
 #### **Parameters of Simulation**
 - Order lines: 20,000 Lines
-- Distance Threshold: Maximum distance between two picking locations (distance_threshold = 35 m)
+- Distance Threshold: Maximum distance between two picking locations _(distance_threshold = 35 m)_
 - Orders per Wave: orders_number in [1, 9]
 
 #### **Final Results**
@@ -194,6 +193,8 @@ We’ll be testing three different methods.
 - Method 3 vs. Method 2: Clustering for mono-line orders reduce the walking distance by 10%
 
 # Build the application locally 🏗️ 
+
+Because the calculations are
 
 ## **Build a python local environment (recommanded)** 
 
@@ -243,7 +244,7 @@ This Streamlit Web Application has been designed for **Supply Chain Engineers** 
   <img align="center" src="static/img/params_1.PNG" width=50%>
 </p>
 
-### ** Step 1: Scope**
+### **Step 1: Scope**
 As the computation time can increase exponentially with the size of the dataset _(optimization can be done)_ you can ask the model to take only the n thousands first lines for analysis.
 
 ### **Step 2: Fix the range of orders/wave to simulate**
@@ -259,12 +260,12 @@ Click the button to start the calculations
 
 💡 This is the same graph with the one presented in the article 
 
-## Experiment 1
+## Experiment 2
 <p align="center">
   <img align="center" src="static/img/params_2.png" width=50%>
 </p>
 
-### ** Step 1: Scope**
+### **Step 1: Scope**
 As the computation time can increase exponentially with the size of the dataset _(optimization can be done)_ you can ask the model to take only the n thousands first lines for analysis.
 
 ### **Step 2: SIMULATION 1: START CALCULATION**
