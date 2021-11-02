@@ -316,7 +316,7 @@ Click the button to start the calculations
 
 ### **Final Results**
 <p align="center">
-  <img align="center" src="static/img/cluster_final_results.png" width=75%>
+  <img align="center" src="static/img/streamlit_picking_route.png" width=75%>
 </p>
 <p align="center"><b>Experiment 2:</b> Final Results</p>
 
