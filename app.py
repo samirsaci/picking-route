@@ -56,7 +56,7 @@ origin_loc = [0, y_low]
 # Distance Threshold (m)			
 distance_threshold = 35			
 distance_list = [1] + [i for i in range(5, 100, 5)]		
-IN = 'In/'
+IN = 'static/in/'
 # Store Results by WaveID
 list_wid, list_dst, list_route, list_ord, list_lines, list_pcs, list_monomult = [], [], [], [], [], [], []
 list_results = [list_wid, list_dst, list_route, list_ord, list_lines, list_pcs, list_monomult]	# Group in list
