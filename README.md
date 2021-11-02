@@ -9,11 +9,9 @@ In a **Distribution Center (DC)**, walking time from one location to another dur
 I have published a series of articles that propose an approach to  design a model to simulate the impact of several picking processes and routing methods to find optimal order picking by using the **Single Picker Routing Problem (SPRP)** for a two-dimensional warehouse model (axis-x, axis-y).
 
 SPRP is a specific application of the general **Traveling Salesman Problem (TSP)** answering the question:
-| “Given a list of storage locations and the distances between each pair of locations, what is the shortest possible route that visits each storage location and returns to the depot ?”
+>  “Given a list of storage locations and the distances between each pair of locations, what is the shortest possible route that visits each storage location and returns to the depot ?”
 
-SPRP is used to determine the minimum route in the picking process to prepare one or several orders.
-
-This repo is containing a ready-to-use **Streamlit App** designed for **Logistics Engineers** to test these different strategies by only uplooading their own dataset of order line records.
+This repo is containing a ready-to-use **Streamlit App** designed for **Logistics Engineers** to test these different strategies by only uplooading their own dataset of order lines records.
 
 ### Understand the theory behind 📜
 - Improve Warehouse Productivity using Order Batching with Python - [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)
@@ -21,9 +19,9 @@ This repo is containing a ready-to-use **Streamlit App** designed for **Logistic
 - Design Pathfinding Algorithm using Google AI to Improve Warehouse Productivity - [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-3-google-ai-for-sprp-308c258cb66f)
 
 
-# Picking Route Optimization to reduce Walking Distance 🚶‍♂️ 
+# Picking Route Optimization 🚶‍♂️ 
 
-## **Initial Step: Prepare order lines datasets with Warehouse Layout Information**
+## 💾**Initial: prepare order lines datasets with picking locations**
 
 Based on your **actual warehouse layout**, storage locations are mapped with **2-D (x, y) coordinates** that will be used to measure walking distance.
 
@@ -39,10 +37,10 @@ Every storage location must be linked to a Reference using Master Data. (For ins
 
 Order lines can be extracted from your WMS Database, this table should be joined with the Master Data table to link every order line to a storage location and its (x, y) coordinate in your warehouse. Extra tables can be added to include more parameters in your model like (Destination, Delivery lead time, Special Packing, ..).
 
-## **Experiment 1: What is the impact of wave picking in the total walking distance?**
+## 🧪**Experiment 1: Inmpact of wave picking in the pickers walking distance?**
 _For more information and details about calculation: [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)_
 
-### Problem Statement
+### ✔️ Problem Statement
 
 For this study, we will use the example of E-Commerce type DC where items are stored in 4 level shelves. These shelves are organized in multiple rows (Row#: 1 … n) and aisles (Aisle#: A1 … A_n).
 
@@ -63,7 +61,7 @@ Scenario 1, the worst in terms of productivity, can be easily optimized because 
 - Zones: orders have picking locations in a common zone
 - Single-line Orders: items_picked/walking_distance efficiency is very low
 
-### Simulation 
+### 📊 Simulation 
 
 In the article I have built a set of functions needed to run different scenarios and simulate the pickers walking distance.
 
@@ -105,7 +103,7 @@ This function will be used to create your picking route from a set of orders to 
 - Input: order lines data frame (df_orderlines) and wave number (waveID)
 - Output: list of locations i(xi, yi) included in your picking route
 
-### **Results and Next Steps**
+### ☑️**Results and Next Steps**
 
 After setting up all necessary functions to measure picking distance, we can now test our picking route strategy with picking order lines.
 
@@ -122,7 +120,7 @@ To estimate the impact of wave picking strategy on your productivity, we will ru
 </p>
 
 
-## **Experiment 2 - What is the impact of grouping orders by spatial clusters of picking locations?**
+## 🧮**Experiment 2 - What is the impact of grouping orders by spatial clusters of picking locations?**
 _For more information and details about calculation: [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)_
 
 
@@ -130,7 +128,7 @@ _For more information and details about calculation: [Medium Article](https://to
   <img align="center" src="static/img/cluster_process.png" width=100%>
 </p>
 
-### **Idea: Picking Locations Clusters** ###
+### 💡**Idea: Picking Locations Clusters** ###
 
 Group picking locations by clusters to reduce the walking distance for each picking route. _(Example: the maximum walking distance between two locations is <15 m)_
 
@@ -155,7 +153,7 @@ _Grouping orders in cluster within n meters of walking distance_
 _Grouping multi-line orders in cluster (using centroids of picking locations) within n meters of walking distance_
 
 
-### **Model Simulation** ###
+### 🐁 **Model Simulation** ###
 
 #### **Methodology** 
 
@@ -218,11 +216,11 @@ Because the ressources provided by Streamlit cloud or Heroku are limited, I woul
 
 ### Run the application  
 
-    streamlit run segmentation.py 
+    streamlit run app.py --server.address 0.0.0.0 
 
 ### Click on the Network URL in the shell   
   <p align="center">
-    <img align="center" src="static/img/network.PNG" width=50%>
+    <img align="center" src="static/img/launch_streamlit.png" width=50%>
   </p>
   
 > -> Enjoy!
@@ -239,7 +237,7 @@ This Streamlit Web Application has been designed for **Supply Chain Engineers** 
  In/df_lines.csv
 - You can build your own dataset following the step of ('Initial Step') above
 
-## Experiment 1
+## 🔬 Experiment 1
 <p align="center">
   <img align="center" src="static/img/params_1.PNG" width=75%>
 </p>
@@ -263,7 +261,7 @@ Click the button to start the calculations
 
 💡 This is the same graph with the one presented in the article 
 
-## Experiment 2
+## 🧪 Experiment 2
 <p align="center">
   <img align="center" src="static/img/params_2.PNG" width=75%>
 </p>
