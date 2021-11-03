@@ -35,6 +35,18 @@ python3.8 -m virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
+''' Tuto Github: https://www.dataschool.io/how-to-contribute-on-github/ ''' 
+
+# Remotes: files in github that are not in your local directory
+git remote -v
+# Fetch the changes: git repo changed and you want to update the changes in your local repo (pull = fetch + merge)
+git remote add upstream https://micromasters.mit.edu/scm/
+-> check that you have tw origins and two upstream
+git fetch upstream 
+-> Changes have been stored in upstream/micromasters
+# Merge
+
+
 # Activate Streamlit
 streamlit run app.py --server.address 0.0.0.0
 
