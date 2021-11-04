@@ -1,4 +1,4 @@
 .dist
 venv/*
 App/*
-.notes.txt
+notes.txt

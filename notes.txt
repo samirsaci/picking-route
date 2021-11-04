@@ -30,7 +30,7 @@ git remote add origin 'https://github.com/samirsaci/segmentation.git'
 git push -u origin main
 
 # Update Local Directory from repo
-git pull --all
+git pull upstream main
 
 # Install pipenv
 pip install virtualenv
@@ -39,6 +39,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 ''' Tuto Github: https://www.dataschool.io/how-to-contribute-on-github/ ''' 
+Two remotes:
+	upstream: original repo
+	orgin: fork repo
 
 # Remotes: files in github that are not in your local directory
 git remote -v
