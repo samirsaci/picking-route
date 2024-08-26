@@ -1,6 +1,6 @@
 # Improve Warehouse Productivity using Order Batching with Python 📦
 
-In a **Distribution Center (DC)**, walking time from one location to another during picking route can account for 60% to 70% of the operator’s working time. Reducing this walking time is the most effective way to increase your DC overall productivity.
+In a **Distribution Center (DC)**, walking time from one location to another during the picking route can account for 60% to 70% of the operator’s working time. Reducing this walking time is the most effective way to increase your DC overall productivity.
 
 <p align="center">
   <img align="center" src="static/img/intro_1.gif" width=75%>
@@ -13,12 +13,12 @@ I have published a series of articles that propose an approach to  design a mode
 SPRP is a specific application of the general **Traveling Salesman Problem (TSP)** answering the question:
 >  “Given a list of storage locations and the distances between each pair of locations, what is the shortest possible route that visits each storage location and returns to the depot ?”
 
-This repo is containing a ready-to-use **Streamlit App** designed for **Logistics Engineers** to test these different strategies by only uplooading their own dataset of order lines records.
+This repo contains a ready-to-use **Streamlit App** designed for **Logistics Engineers** to test these different strategies by only uploading their own dataset of order line records.
 
 ### Understand the theory behind 📜
-- Improve Warehouse Productivity using Order Batching with Python - [Article](https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/)
-- Improve Warehouse Productivity using Spatial Clustering with Python Scipy - [Article](https://www.samirsaci.com/improve-warehouse-productivity-using-spatial-clustering-with-python/)
-- Design Pathfinding Algorithm using Google AI to Improve Warehouse Productivity - [Article](https://www.samirsaci.com/improve-warehouse-productivity-using-pathfinding-algorithm-with-python/)
+- Improve Warehouse Productivity using Order Batching with Python - [Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)
+- Improve Warehouse Productivity using Spatial Clustering with Python Scipy - [Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)
+- Design Pathfinding Algorithm using Google AI to Improve Warehouse Productivity - [Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-3-google-ai-for-sprp-308c258cb66f)
 
 
 # Picking Route Optimization 🚶‍♂️ 
@@ -40,10 +40,10 @@ Every storage location must be linked to a Reference using Master Data. (For ins
 </p>
 <p align="center">Database Schema</p>
 
-Order lines can be extracted from your WMS Database, this table should be joined with the Master Data table to link every order line to a storage location and its (x, y) coordinate in your warehouse. Extra tables can be added to include more parameters in your model like (Destination, Delivery lead time, Special Packing, ..).
+Order lines can be extracted from your WMS Database. This table should be joined with the Master Data table to link every order line to a storage location and coordinate its (x, y) in your warehouse. Extra tables can be added to include more parameters in your model like (Destination, Delivery lead time, Special Packing, ..).
 
-## 🧪 **Experiment 1: Impacts of wave picking on the pickers walking distance?**
-_For more information and details about calculation: [Medium Article](https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/)_
+## 🧪 **Experiment 1: Impacts of wave picking on the pickers' walking distance?**
+_For more information and details about calculation: [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)_
 
 ### ✔️ Problem Statement
 
@@ -77,9 +77,9 @@ We are going to build a model to simulate the impact of several Wave Picking str
 
 ### 📊 Simulation 
 
-In the article I have built a set of functions needed to run different scenarios and simulate the pickers walking distance.
+In the article, I have built a set of functions needed to run different scenarios and simulate the picker's walking distance.
 
-**Function:** Calculate distance between two picking locations
+**Function:** Calculate the distance between two picking locations
 <p align="center">
   <img align="center" src="static/img/batch_function_1.png" width=75%>
   
@@ -87,14 +87,14 @@ In the article I have built a set of functions needed to run different scenarios
 <p align="center"><b>Function:</b> Different routes between two storage locations in the warehouse</p>
 
 
-This function will be used to calculate the walking distance from a point i (xi, yi) and j (xj, yj).
+This function will be used to calculate the walking distance from points i (xi, yi) and j (xj, yj).
 
 Objective: return the shortest walking distance between the two potential routes from point i to point j.
 > Parameters
-- y_low : lowest point of your alley (y-axis)
-- y_high : highest point of your alley (y-axis)
+- y_low: lowest point of your alley (y-axis)
+- y_high: highest point of your alley (y-axis)
 
-**Function:** the Next Closest Location
+**Function:** The Next Closest Location
 <p align="center">
   <img align="center" src="static/img/batch_function_2.png" width=75%>
   
@@ -102,12 +102,12 @@ Objective: return the shortest walking distance between the two potential routes
 <p align="center"><b>Function:</b> Next Storage Location Scenario</p>
 
 
-This function will be used to choose the next location among several candidates to continue your picking route.
+This function will choose the next location among several candidates to continue your picking route.
 
 Objective: return the closest location as the best candidate
 
 
-This function will be used to create your picking route from a set of orders to prepare.
+This function will create your picking route from a set of orders to prepare.
 - Input: a list of (x, y) locations based on items to be picked for this route
 - Output: an ordered sequence of locations covered and total walking distance
 
@@ -127,7 +127,7 @@ After setting up all necessary functions to measure picking distance, we can now
 
 Here, we first decided to start with a very simple approach
 - Orders Waves: orders are grouped by chronological order of receiving time from OMS ( TimeStamp)
-- Picking Route: picking route strategy is following the Next Closest Location logic
+- Picking Route: The picking route strategy follows the Next Closest Location logic
 
 To estimate the impact of wave picking strategy on your productivity, we will run several simulations with a gradual number of orders per wave:
 1. Measure Total Walking Distance: how much walking distance is reduced when the number of orders per route is increased?
@@ -141,7 +141,7 @@ To estimate the impact of wave picking strategy on your productivity, we will ru
 
 
 ## 🧮**Experiment 2: Impacts of orders batching using spatial clusters of picking locations?**
-_For more information and details about calculation: [Article](https://www.samirsaci.com/improve-warehouse-productivity-using-spatial-clustering-with-python/)_
+_For more information and details about calculation: [Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)
 
 
 <p align="center">
@@ -224,15 +224,15 @@ We’ll be testing three different methods:
 
 # Build the application locally 🏗️ 
 
-Because the ressources provided by Streamlit cloud or Heroku are limited, I would suggest to run this application locally.
+Because the resources provided by Streamlit Cloud or Heroku are limited, I suggest running this application locally.
 
-## **Build a python local environment (recommanded)** 
+## **Build a Python local environment (recommended)** 
 
 ### Then install **virtualenv** using pip3
 
     sudo pip3 install virtualenv 
 
-### Now create a virtual environment 
+### Now, create a virtual environment 
 
     virtualenv venv 
   
@@ -263,7 +263,7 @@ Because the ressources provided by Streamlit cloud or Heroku are limited, I woul
 > This app has not been deployed, you need to use it locally/.
 
 ## **Why should you use it?**
-This Streamlit Web Application has been designed for **Supply Chain Engineers** to help them simulating the impact on picking route optimization in the total distance of their picking operators.
+This Streamlit Web Application has been designed for Supply Chain Engineers to help them simulate the impact on picking route optimization on the total distance of their picking operators.
 
 ## **Load the data**
 
@@ -323,6 +323,6 @@ Click the button to start the calculations
 💡 This is the same graph with the one presented in the article 
 
 # About me 🤓
-Senior Supply Chain Engineer with an international experience working on Logistics and Transportation operations. \
+Senior Supply Chain Engineer with international experience working on Logistics and Transportation operations. \
 Have a look at my portfolio: [Data Science for Supply Chain Portfolio](https://samirsaci.com) \
 Data Science for Warehousing📦, Transportation 🚚 and Demand Forecasting 📈 
