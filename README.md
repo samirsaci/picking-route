@@ -16,9 +16,9 @@ SPRP is a specific application of the general **Traveling Salesman Problem (TSP)
 This repo contains a ready-to-use **Streamlit App** designed for **Logistics Engineers** to test these different strategies by only uploading their own dataset of order line records.
 
 ### Understand the theory behind 📜
-- Improve Warehouse Productivity using Order Batching with Python - [Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)
-- Improve Warehouse Productivity using Spatial Clustering with Python Scipy - [Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)
-- Design Pathfinding Algorithm using Google AI to Improve Warehouse Productivity - [Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-3-google-ai-for-sprp-308c258cb66f)
+- Improve Warehouse Productivity using Order Batching with Python - [Article](https://medium.com/towards-data-science/optimizing-warehouse-operations-with-python-part-1-83d02d001845)
+- Improve Warehouse Productivity using Spatial Clustering with Python Scipy - [Article](https://medium.com/towards-data-science/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)
+- Design Pathfinding Algorithm using Google AI to Improve Warehouse Productivity - [Article](https://medium.com/towards-data-science/optimizing-warehouse-operations-with-python-part-3-google-ai-for-sprp-308c258cb66f)
 
 
 # Picking Route Optimization 🚶‍♂️ 
@@ -43,7 +43,7 @@ Every storage location must be linked to a Reference using Master Data. (For ins
 Order lines can be extracted from your WMS Database. This table should be joined with the Master Data table to link every order line to a storage location and coordinate its (x, y) in your warehouse. Extra tables can be added to include more parameters in your model like (Destination, Delivery lead time, Special Packing, ..).
 
 ## 🧪 **Experiment 1: Impacts of wave picking on the pickers' walking distance?**
-_For more information and details about calculation: [Medium Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-1-83d02d001845)_
+_For more information and details about calculation: [Medium Article](https://medium.com/towards-data-science/optimizing-warehouse-operations-with-python-part-1-83d02d001845)_
 
 ### ✔️ Problem Statement
 
@@ -141,7 +141,7 @@ To estimate the impact of wave picking strategy on your productivity, we will ru
 
 
 ## 🧮**Experiment 2: Impacts of orders batching using spatial clusters of picking locations?**
-_For more information and details about calculation: [Article](https://towardsdatascience.com/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)
+_For more information and details about calculation: [Article](https://medium.com/towards-data-science/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)
 
 
 <p align="center">
