@@ -1,0 +1,56 @@
+[project]
+name = "picking-route"
+version = "1.0.0"
+description = "Streamlit app to improve warehouse productivity by simulating order batching and picking-route optimisation (Single Picker Routing Problem)"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Samir Saci" },
+]
+requires-python = ">=3.11"
+keywords = [
+    "warehouse",
+    "supply-chain",
+    "order-batching",
+    "picking-route",
+    "streamlit",
+    "logistics",
+    "optimization",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "streamlit>=1.40",
+    "pandas>=2.2",
+    "numpy>=1.26",
+    "scipy>=1.13",
+    "plotly>=5.24",
+    "matplotlib>=3.9",
+]
+
+[project.urls]
+Homepage = "https://github.com/samirsaci/picking-route"
+Repository = "https://github.com/samirsaci/picking-route"
+"Blog article" = "https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8",
+    "pytest>=8.3",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+# F403/F405: star imports are pervasive in the current code base (see notes/01);
+# ignored until the explicit-imports refactor pass.
+ignore = ["F403", "F405"]

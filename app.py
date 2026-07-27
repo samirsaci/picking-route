@@ -1,124 +1,139 @@
+from pathlib import Path
+
 import pandas as pd
-import numpy as np
-import plotly.express as px
-from utils.routing.distances import (
-	distance_picking,
-	next_location
-)
-from utils.routing.routes import (
-	create_picking_route
-)
-from utils.batch.mapping_batch import (
-	orderlines_mapping,
-	locations_listing
-)
-from utils.cluster.mapping_cluster import (
-	df_mapping
-)
-from utils.batch.simulation_batch import (
-	simulation_wave,
-	simulate_batch
-)
-from utils.cluster.simulation_cluster import(
-	loop_wave,
-	simulation_cluster,
-	create_dataframe,
-	process_methods
-)
-from utils.results.plot import (
-	plot_simulation1,
-	plot_simulation2
-)
 import streamlit as st
-from streamlit import caching
 
-# Set page configuration
-st.set_page_config(page_title ="Improve Warehouse Productivity using Order Batching",
-                    initial_sidebar_state="expanded",
-                    layout='wide',
-                    page_icon="🛒")
+from utils.batch.simulation_batch import simulate_batch
+from utils.cluster.simulation_cluster import simulation_cluster
+from utils.results.plot import plot_simulation1, plot_simulation2
 
-# Set up the page
-@st.cache(persist=False,
-          allow_output_mutation=True,
-          suppress_st_warning=True,
-          show_spinner= True)
-# Preparation of data
-def load(filename, n):
-    df_orderlines = pd.read_csv(IN + filename).head(n)
-    return df_orderlines
+# --- Page configuration -------------------------------------------------------
+st.set_page_config(page_title="Improve Warehouse Productivity using Order Batching",
+                   initial_sidebar_state="expanded",
+                   layout="wide",
+                   page_icon="🛒")
+
+# --- Warehouse layout constants -----------------------------------------------
+Y_LOW, Y_HIGH = 5.5, 50        # alley low/high coordinates on the y-axis (m)
+ORIGIN_LOC = [0, Y_LOW]        # picking route start/end point (depot)
+DISTANCE_THRESHOLD = 35        # clustering: max walking distance between two locations (m)
+DATA_FILE = Path("static/in/df_lines.csv")
 
 
-# Alley Coordinates on y-axis
-y_low, y_high = 5.5, 50
-# Origin Location
-origin_loc = [0, y_low]
-# Distance Threshold (m)			
-distance_threshold = 35			
-distance_list = [1] + [i for i in range(5, 100, 5)]		
-IN = 'static/in/'
-# Store Results by WaveID
-list_wid, list_dst, list_route, list_ord, list_lines, list_pcs, list_monomult = [], [], [], [], [], [], []
-list_results = [list_wid, list_dst, list_route, list_ord, list_lines, list_pcs, list_monomult]	# Group in list
-# Store Results by Simulation (Order_number)
-list_ordnum , list_dstw = [], []
+# --- Cached data & simulations ------------------------------------------------
+@st.cache_data(show_spinner=False)
+def dataset_size():
+    return len(pd.read_csv(DATA_FILE))
 
-# Simulation 1: Order Batch
-# SCOPE SIZE
-st.header("**🥇 Impact of the wave size in orders (Orders/Wave) **")
-st.subheader('''
-        🛠️ HOW MANY ORDER LINES DO YOU WANT TO INCLUDE IN YOUR ANALYSIS?
-    ''')
-col1, col2 = st.beta_columns(2)
-with col1:
-	n = st.slider(
-				'SIMULATION 1 SCOPE (THOUSDAND ORDERS)', 1, 200 , value = 5)
-with col2:
-	lines_number = 1000 * n 
-	st.write('''🛠️{:,} \
-		order lines'''.format(lines_number))
-# SIMULATION PARAMETERS
-st.subheader('''
-        🛠️ SIMULATE ORDER PICKING BY WAVE OF N ORDERS PER WAVE WITH N IN [N_MIN, N_MAX] ''')
-col_11 , col_22 = st.beta_columns(2)
-with col_11:
-	n1 = st.slider(
-				'SIMULATION 1: N_MIN (ORDERS/WAVE)', 0, 20 , value = 1)
-	n2 = st.slider(
-				'SIMULATION 1: N_MAX (ORDERS/WAVE)', n1 + 1, 20 , value = int(np.max([n1+1 , 10])))
-with col_22:
-		st.write('''[N_MIN, N_MAX] = [{:,}, {:,}]'''.format(n1, n2))
-# START CALCULATION
-start_1= False
-if st.checkbox('SIMULATION 1: START CALCULATION',key='show', value=False):
-    start_1 = True
-# Calculation
-if start_1:
-	df_orderlines = load('df_lines.csv', lines_number)
-	df_waves, df_results = simulate_batch(n1, n2, y_low, y_high, origin_loc, lines_number, df_orderlines)
-	plot_simulation1(df_results, lines_number)
 
-# Simulation 2: Order Batch using Spatial Clustering 
-# SCOPE SIZE
-st.header("**🥈 Impact of the order batching method **")
-st.subheader('''
-        🛠️ HOW MANY ORDER LINES DO YOU WANT TO INCLUDE IN YOUR ANALYSIS?
-    ''')
-col1, col2 = st.beta_columns(2)
-with col1:
-	n_ = st.slider(
-				'SIMULATION 2 SCOPE (THOUSDAND ORDERS)', 1, 200 , value = 5)
-with col2:
-	lines_2 = 1000 * n_ 
-	st.write('''🛠️{:,} \
-		order lines'''.format(lines_2))
-# START CALCULATION
-start_2 = False
-if st.checkbox('SIMULATION 2: START CALCULATION',key='show_2', value=False):
-    start_2 = True
-# Calculation
-if start_2:
-	df_orderlines = load('df_lines.csv', lines_2)
-	df_reswave, df_results = simulation_cluster(y_low, y_high, df_orderlines, list_results, n1, n2, 
-			distance_threshold)
-	plot_simulation2(df_reswave, lines_2, distance_threshold)
+@st.cache_data(show_spinner=False)
+def load(n):
+    '''Load the first n order lines of the dataset'''
+    return pd.read_csv(DATA_FILE).head(n)
+
+
+@st.cache_data(show_spinner=False)
+def run_simulation_1(lines_number, n1, n2):
+    '''Simulation 1: total walking distance for each wave size in [n1, n2]'''
+    df_orderlines = load(lines_number)
+    _, df_results = simulate_batch(n1, n2, Y_LOW, Y_HIGH, ORIGIN_LOC, lines_number, df_orderlines)
+    return df_results
+
+
+@st.cache_data(show_spinner=False)
+def run_simulation_2(lines_number, n1, n2, distance_threshold):
+    '''Simulation 2: three wave-creation methods (no clustering / mono-line clustering / + centroids)'''
+    df_orderlines = load(lines_number)
+    list_results = [[], [], [], [], [], [], []]
+    df_reswave, _ = simulation_cluster(Y_LOW, Y_HIGH, df_orderlines, list_results, n1, n2, distance_threshold)
+    return df_reswave
+
+
+# --- Sidebar: simulation parameters -------------------------------------------
+max_scope = max(1, dataset_size() // 1000)
+with st.sidebar:
+    st.title("🛒 Picking Route Optimisation")
+    st.caption("Simulate the impact of order batching strategies on the walking distance of warehouse pickers.")
+
+    st.header("⚙️ Parameters")
+    scope = st.slider("Scope (thousand order lines)", 1, max_scope, min(5, max_scope),
+                      help="Number of order lines included in the simulations — "
+                           f"the loaded dataset has {dataset_size():,} lines.")
+    n1 = st.slider("N_MIN (orders/wave)", 1, 20, 1,
+                   help="Smallest wave size to simulate.")
+    n2 = st.slider("N_MAX (orders/wave)", n1 + 1, 20, max(n1 + 1, 10),
+                   help="Largest wave size to simulate.")
+
+    st.header("🥈 Simulation 2")
+    run_2 = st.toggle("Compare batching methods",
+                      help="Runs the three wave-creation methods: no clustering, clustering on single-line orders, "
+                           "clustering + centroids for multi-line orders. Roughly 3× slower than Simulation 1.")
+
+    st.divider()
+    st.markdown("Made by [Samir Saci](https://samirsaci.com/about) · "
+                "[Theory behind the model 📜](https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/)")
+
+lines_number = scope * 1000
+
+# --- Main page -----------------------------------------------------------------
+st.title("📦 Improve Warehouse Productivity using Order Batching")
+st.markdown(f"Simulating **{lines_number:,} order lines** with wave sizes from **{n1}** to **{n2} orders/wave** — "
+            "tune the parameters in the sidebar, results update automatically.")
+
+tab1, tab2 = st.tabs(["🥇 Impact of wave size", "🥈 Impact of batching method"])
+
+# Simulation 1: runs by default on arrival (cached across reruns)
+with tab1:
+    st.subheader("How does the number of orders per wave impact the total walking distance?")
+    with st.spinner(f"Simulating {lines_number:,} order lines for wave sizes {n1} to {n2}…"):
+        df_results = run_simulation_1(lines_number, n1, n2)
+
+    base = df_results.iloc[0]
+    best = df_results.loc[df_results["distance"].idxmin()]
+    saving = 1 - best["distance"] / base["distance"]
+
+    col1, col2, col3 = st.columns(3)
+    col1.metric(f"Baseline — {int(base['order_per_wave'])} order(s)/wave", f"{base['distance']:,.0f} m")
+    col2.metric(f"Best — {int(best['order_per_wave'])} orders/wave", f"{best['distance']:,.0f} m",
+                delta=f"-{saving:.0%} walking distance", delta_color="inverse")
+    col3.metric("Order lines simulated", f"{lines_number:,}")
+
+    plot_simulation1(df_results, lines_number)
+
+    with st.expander("📄 Results table"):
+        st.dataframe(df_results.rename(columns={"order_per_wave": "Wave size (orders/wave)",
+                                                "distance": "Walking distance (m)"}),
+                     hide_index=True, width="stretch")
+
+# Simulation 2: opt-in from the sidebar (3× heavier)
+with tab2:
+    st.subheader("Does spatial clustering of picking locations reduce the walking distance further?")
+    st.markdown(f"Three wave-creation methods compared — **Method 1**: chronological batching (no clustering) · "
+                f"**Method 2**: clustering on single-line orders · **Method 3**: clustering + centroids for "
+                f"multi-line orders _(distance threshold: {DISTANCE_THRESHOLD} m)_.")
+    if run_2:
+        with st.spinner(f"Running the three methods on {lines_number:,} order lines — about 3× Simulation 1…"):
+            df_reswave = run_simulation_2(lines_number, n1, n2, DISTANCE_THRESHOLD)
+
+        best_n = df_reswave["distance_method_3"].idxmin()
+        m1_val = df_reswave.loc[best_n, "distance_method_1"]
+        m3_val = df_reswave.loc[best_n, "distance_method_3"]
+        saving_2 = 1 - m3_val / m1_val
+
+        col1, col2, col3 = st.columns(3)
+        col1.metric(f"Method 1 — {int(best_n)} orders/wave", f"{m1_val:,.0f} m")
+        col2.metric(f"Method 3 — {int(best_n)} orders/wave", f"{m3_val:,.0f} m",
+                    delta=f"-{saving_2:.0%} vs Method 1", delta_color="inverse")
+        col3.metric("Distance threshold", f"{DISTANCE_THRESHOLD} m")
+
+        plot_simulation2(df_reswave, lines_number, DISTANCE_THRESHOLD)
+
+        with st.expander("📄 Results table"):
+            st.dataframe(df_reswave.reset_index().rename(
+                columns={"orders_number": "Wave size (orders/wave)",
+                         "distance_method_1": "Method 1 — No clustering (m)",
+                         "distance_method_2": "Method 2 — Clustering single-line (m)",
+                         "distance_method_3": "Method 3 — Clustering + centroids (m)"}),
+                hide_index=True, width="stretch")
+    else:
+        st.info("👈 Turn on **Compare batching methods** in the sidebar to run this simulation.")

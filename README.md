@@ -1,5 +1,11 @@
 # Improve Warehouse Productivity using Order Batching with Python 📦
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Streamlit](https://img.shields.io/badge/Streamlit-app-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io)
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)](Dockerfile)
+
 In a **Distribution Centre (DC)**, walking time between locations during the picking route can account for 60%-70% of an operator’s working time. Reducing this walking time is the most effective way to increase your DC overall productivity.
 
 <p align="center">
@@ -7,7 +13,7 @@ In a **Distribution Centre (DC)**, walking time between locations during the pic
     <img align="center" src="static/img/intro_1.gif" style="max-width: 75%; height: auto;">
   </a>
 </p>
-<p align="center"><b>Scenario 1:</b> Picking routes with 1 order picked per wave</p>>
+<p align="center"><b>Scenario 1:</b> Picking routes with 1 order picked per wave</p>
 
 
 I have published a series of articles proposing an approach to design a model that simulates the impact of multiple picking processes and routing methods to identify optimal order picking using the Single Picker Routing Problem (SPRP) for a two-dimensional warehouse model (axis-x, axis-y).
@@ -16,7 +22,21 @@ SPRP is a specific application of the general **Travelling Salesman Problem (TSP
 
 >  “Given a list of storage locations and the distances between each pair of locations, what is the shortest possible route that visits each storage location and returns to the depot ?”
 
-This repo contains a ready-to-use **Streamlit App** designed for **Logistics Engineers** to test these different strategies by only uploading their own dataset of order line records.
+This repo contains a ready-to-use **Streamlit App** designed for **Logistics Engineers** to test these different strategies with their own dataset of order line records _(see the expected data format in [Load the data](#load-the-data))_.
+
+## ⚡ Quick Start
+
+**With [uv](https://docs.astral.sh/uv/) (manages Python and dependencies automatically):**
+```bash
+uv run streamlit run app.py
+```
+
+**With Docker:**
+```bash
+docker compose up --build
+```
+
+Then open [http://localhost:8501](http://localhost:8501) — details in the **Build the application locally** section below.
 
 ### Understand the theory behind 📜
 - Improve Warehouse Productivity using Order Batching with Python - [Article](https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/)
@@ -49,7 +69,7 @@ Every storage location must be linked to a Reference using Master Data. (For ins
 Order lines can be extracted from your WMS Database. This table should be joined with the Master Data table to link each order line to a storage location and specify its (x, y) coordinates in your warehouse. Extra tables can be added to include more parameters in your model, like (Destination, Delivery lead time, Special Packing, ..).
 
 ## 🧪 **Experiment 1: Impacts of wave picking on the pickers' walking distance?**
-_For more information and details about calculation: [Medium Article](https://medium.com/towards-data-science/optimizing-warehouse-operations-with-python-part-1-83d02d001845)_
+_For more information and details about calculation: [Article](https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/)_
 
 ### ✔️ Problem Statement
 
@@ -145,7 +165,7 @@ To estimate the impact of wave picking strategy on your productivity, we will ru
 <p align="center"><b>Experiment 1:</b> Results for 5,000 order lines with a ratio from 1 to 9 orders per route</p>
 
 ## 🧮**Experiment 2: Impacts of orders batching using spatial clusters of picking locations?**
-_For more information and details about calculation: [Article](https://medium.com/towards-data-science/optimizing-warehouse-operations-with-python-part-2-clustering-with-scipy-for-waves-creation-9b7c7dd49a84)
+_For more information and details about calculation: [Article](https://www.samirsaci.com/improve-warehouse-productivity-using-spatial-clustering-with-python/)_
 
 <p align="center">
   <a href="https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/" target="_blank" rel="noopener noreferrer">
@@ -231,41 +251,64 @@ We’ll be testing three different methods:
 - Method 2 vs. Method 1: Clustering for mono-line orders reduce the walking distance by 34%
 - Method 3 vs. Method 2: Clustering for mono-line orders reduce the walking distance by 10%
 
+# Project structure 📁
+
+```
+picking-route/
+├── app.py                  # Streamlit application (UI + simulation orchestration)
+├── utils/
+│   ├── routing/            # Distance calculation & picking-route creation (SPRP heuristic)
+│   ├── batch/              # Experiment 1: order batching by wave
+│   ├── cluster/            # Experiment 2: spatial clustering of picking locations
+│   ├── process/            # Order lines pre-processing (mono/multi-line split)
+│   └── results/            # Plotly charts rendered in the app
+├── static/
+│   ├── in/df_lines.csv     # Sample dataset (5,000 order lines)
+│   ├── img/                # README illustrations
+│   └── out/                # Generated charts (created at runtime, gitignored)
+├── pyproject.toml          # Project metadata & dependencies (managed with uv)
+├── uv.lock                 # Locked dependency versions for reproducible installs
+├── Dockerfile              # Multi-stage container build (uv + python-slim)
+└── docker-compose.yml      # One-command containerised run
+```
+
 # Build the application locally 🏗️ 
 
 Because the resources provided by Streamlit Cloud or Heroku are limited, I suggest running this application locally.
 
-## **Build a Python local environment (recommended)** 
+The project is managed with [uv](https://docs.astral.sh/uv/) — dependencies are declared in `pyproject.toml` and locked in `uv.lock` for reproducible installs.
 
-### Then install **virtualenv** using pip3
-```
-    sudo pip3 install virtualenv
-```
+## **Option 1: Run with uv (recommended)** 
 
-### Now, create a virtual environment 
+### Install uv (if you don't have it yet)
 ```
-    virtualenv venv
-```
-  
-### Active your virtual environment    
-```
-    source venv/bin/activate
-```
-  
-## Launch Streamlit 🚀
-
-### Install all dependencies needed using requirements.txt
-
-```
-     pip install -r requirements.txt
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### Run the application  
+### Run the application
 ```
-    streamlit run app.py --server.address 0.0.0.0
+    uv run streamlit run app.py --server.address 0.0.0.0
 ```
 
-### Click on the URL   
+That's it — `uv run` automatically creates the virtual environment, installs the locked dependencies and starts the app.
+
+## **Option 2: Run with Docker 🐳**
+
+### Build and start with Docker Compose
+```
+    docker compose up --build
+```
+
+Or with plain Docker:
+```
+    docker build -t picking-route .
+    docker run -p 8501:8501 picking-route
+```
+
+Then open [http://localhost:8501](http://localhost:8501) in your browser.
+
+### Open the app in your browser
+When running with uv, Streamlit prints the local URL in your terminal — click it (or open [http://localhost:8501](http://localhost:8501)).
 <p align="center">
   <a href="https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/" target="_blank" rel="noopener noreferrer">
     <img align="center" src="static/img/launch_streamlit.png" style="max-width: 50%; height: auto;">
@@ -276,7 +319,7 @@ Because the resources provided by Streamlit Cloud or Heroku are limited, I sugge
 > -> Enjoy!
 
 # Use the application 🖥️ 
-> This app has not been deployed; you need to use it locally/.
+> This app has not been deployed; you need to use it locally.
 
 ## **Why should you use it?**
 This Streamlit Web Application has been designed for Supply Chain Engineers to help them simulate the impact on picking route optimization on the total distance of their picking operators.
@@ -284,64 +327,93 @@ This Streamlit Web Application has been designed for Supply Chain Engineers to h
 ## **Load the data**
 
 - You can use the dataset located in the folder 
- In/df_lines.csv
+ `static/in/df_lines.csv`
 - You can build your own dataset following the steps of ('Initial Step') above
+
+### Expected data format
+
+The app reads a CSV file with one row per **order line**, with the following columns:
+
+| Column | Type | Description | Example |
+|--------|------|-------------|---------|
+| `DATE` | date | Order receiving date/time from the OMS | `12/11/2018` |
+| `OrderNumber` | int | Order identifier (lines sharing it belong to the same order) | `3780678` |
+| `SKU` | int/str | Item reference to pick | `399573` |
+| `PCS` | int | Number of pieces to pick | `1` |
+| `ReferenceID` | int/str | Master data reference | `399573` |
+| `Location` | str | Storage location code | `A1119504` |
+| `Alley_Number` | str | Alley identifier | `A11` |
+| `Cellule` | int | Cell number within the alley | `19` |
+| `Coord` | str | 2-D picking coordinates as `"[x, y]"` (metres) | `"[19.5, 21.0]"` |
+| `AlleyCell` | str | Concatenation of alley + cell | `A1119` |
+
+The columns actually used by the simulations are `DATE`, `OrderNumber`, `SKU`, `PCS` and `Coord` — the others are kept for traceability with the warehouse layout. To use your own data, replace `static/in/df_lines.csv` with a file following the same schema.
 
 ## 🔬 Experiment 1
 <p align="center">
   <a href="https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/" target="_blank" rel="noopener noreferrer">
-    <img align="center" src="static/img/params_1.PNG" style="max-width: 75%; height: auto;">
+    <img align="center" src="static/img/app_simulation_1.png" style="max-width: 100%; height: auto;">
   </a>
 </p>
-<p align="center"><b>Experiment 1:</b> Parameters</p>
+<p align="center"><b>Experiment 1:</b> Simulation 1 runs on arrival — parameters in the sidebar, KPIs and chart update automatically</p>
 
-### **Step 1:** Scope
+### **Step 1:** Scope _(sidebar)_
 
 As the computation time can increase exponentially with the size of the dataset _(optimisation can be done)_ you can ask the model to take only the first n thousand lines for analysis.
 
-### **Step 2:** Fix the range of orders/wave to simulate
+### **Step 2:** Fix the range of orders/wave to simulate _(sidebar)_
 
-In the picture below, we ask the model to run a loop testing scenarios with the number of orders per wave varying between 1 and 10.
+Use the **N_MIN / N_MAX** sliders to set the range of orders per wave to test (default: 1 to 10).
 
-### **Step 3:** START CALCULATION
+### **Step 3:** Results appear automatically
 
-Click the button to start the calculations.
+Simulation 1 runs automatically when you open the app and re-runs whenever you change a parameter — results are cached, so revisiting a previous setting is instant.
 
 ### **Final Results**
-<p align="center">
-  <a href="https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/" target="_blank" rel="noopener noreferrer">
-    <img align="center" src="static/img/batch_results.png" style="max-width: 75%; height: auto;">
-  </a>
-</p>
-<p align="center"><b>Experiment 1:</b> Final Results</p>
 
-💡 This is the same graph as the one presented in the article 
+The bar chart in the screenshot above shows the total walking distance per wave size — 💡 this is the same graph as the one presented in the article.
 
 ## 🧪 Experiment 2
 <p align="center">
-  <a href="https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/" target="_blank" rel="noopener noreferrer">
-    <img align="center" src="static/img/params_2.PNG" style="max-width: 75%; height: auto;">
+  <a href="https://www.samirsaci.com/improve-warehouse-productivity-using-spatial-clustering-with-python/" target="_blank" rel="noopener noreferrer">
+    <img align="center" src="static/img/app_simulation_2.png" style="max-width: 100%; height: auto;">
   </a>
 </p>
-<p align="center"><b>Experiment 2:</b> Parameters</p>>
+<p align="center"><b>Experiment 2:</b> The three batching methods compared — enabled with the sidebar toggle</p>
 
-### **Step 1:** Scope
+### **Step 1:** Scope _(sidebar)_
 
-As the computation time can increase exponentially with the size of the dataset _(optimisation can be done)_ you can ask the model to take only the first n thousand lines for analysis.
+Simulation 2 uses the same scope and wave-size range as Simulation 1.
 
-### **Step 2:** START CALCULATION
+### **Step 2:** Turn on **Compare batching methods** _(sidebar)_
 
-Click the button to start the calculations.
+Open the **🥈 Impact of batching method** tab and enable the toggle — this simulation runs the three methods, so it takes roughly 3× longer than Simulation 1.
 
 ### **Final Results**
-<p align="center">
-  <a href="https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/" target="_blank" rel="noopener noreferrer">
-    <img align="center" src="static/img/streamlit_picking_route.png" style="max-width: 75%; height: auto;">
-  </a>
-</p>
-<p align="center"><b>Experiment 2:</b> Final Results</p>>
 
-💡 This is the same graph with the one presented in the article 
+The grouped bar chart in the screenshot above compares the three methods per wave size — 💡 this is the same graph as the one presented in the article.
+
+## Development 🛠️
+
+Dev tooling is declared in the `dev` dependency group of `pyproject.toml`:
+
+```bash
+uv sync                  # install runtime + dev dependencies in .venv
+uv run ruff check .      # lint
+uv run pytest            # run tests (test suite in progress)
+```
+
+Useful dependency commands: `uv add <pkg>` / `uv remove <pkg>` (both update `uv.lock` automatically), `uv lock --upgrade` to refresh pinned versions.
+
+## Contributing 🤝
+
+Contributions are welcome! Feel free to:
+- Open an [issue](https://github.com/samirsaci/picking-route/issues) for bugs, questions or feature ideas
+- Submit a pull request — please describe the motivation and keep changes focused
+
+## License 📝
+
+This project is licensed under the [MIT License](LICENSE) — free to use, modify and distribute.
 
 ## About me 🤓
 Senior Supply Chain and Data Science consultant with international experience working on Logistics and Transportation operations.\

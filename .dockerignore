@@ -1,0 +1,29 @@
+# VCS
+.git/
+.gitignore
+
+# Environments & caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.pytest_cache/
+
+# Generated output
+static/out/
+
+# Docs & scratch (not needed inside the image)
+notes/
+README.md
+LICENSE
+
+# Docker files themselves
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store

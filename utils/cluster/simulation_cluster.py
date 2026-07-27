@@ -1,3 +1,5 @@
+import os
+
 from utils.cluster.mapping_cluster import *
 from utils.routing.routes import *
 
@@ -144,7 +146,8 @@ def process_methods(df_reswave1, df_reswave2, df_reswave3, lines_number, distanc
     plt.title("Picking Route Distance for {:,} Order lines / {} m distance threshold".format(lines_number, distance_threshold))
     plt.ylabel('Walking Distance (m)')
     plt.xlabel('Orders per Wave (Orders/Wave)')
+    os.makedirs("static/out", exist_ok=True)
     plt.savefig("static/out/{}lines_{}m_3m.png".format(lines_number, distance_threshold))
-    plt.show()
+    plt.close()
 
     return df_reswave

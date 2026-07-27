@@ -1,0 +1,8 @@
+services:
+  picking-route:
+    build: .
+    image: picking-route:latest
+    container_name: picking-route
+    ports:
+      - "8501:8501"
+    restart: unless-stopped
