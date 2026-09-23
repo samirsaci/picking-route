@@ -24,6 +24,12 @@ SPRP is a specific application of the general **Travelling Salesman Problem (TSP
 
 This repo contains a ready-to-use **Streamlit App** designed for **Logistics Engineers** to test these different strategies with their own dataset of order line records _(see the expected data format in [Load the data](#load-the-data))_.
 
+### Youtube Video
+Click on the image below to access the video tutorial that explains the concept behind this solution
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=XejgbF2m_8g"><img src="https://i.ytimg.com/vi/XejgbF2m_8g/hqdefault.jpg" alt="Understand Warehouse Picking Process (Handling Unit, Picking, Packing)"></a>
+</div>
+
 ## ⚡ Quick Start
 
 **With [uv](https://docs.astral.sh/uv/) (manages Python and dependencies automatically):**
@@ -418,6 +424,7 @@ This project is licensed under the [MIT License](LICENSE) — free to use, modif
 ## Go further
 
 - **The full write-up, with the reasoning behind the code:** [Improve Warehouse Productivity using Order Batching with Python](https://www.samirsaci.com/improve-warehouse-productivity-using-order-batching-with-python/?utm_source=github&utm_medium=readme&utm_campaign=picking-route)
+- **The video:** [Understand Warehouse Picking Process (Handling Unit, Picking, Packing)](https://youtu.be/XejgbF2m_8g)
 - **Test what you learned:** the [Supply Science App](https://supply-science.com/?utm_source=github&utm_medium=readme&utm_campaign=picking-route) has quizzes on warehouse layout and wave picking, and the lessons on warehouse productivity, free and in the browser.
 - **100+ case studies with their source code:** [samirsaci.com](https://www.samirsaci.com/?utm_source=github&utm_medium=readme&utm_campaign=picking-route)
 
