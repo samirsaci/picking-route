@@ -51,11 +51,11 @@ def lines_mapping(df, orders_number, wave_start):
     # Unique order numbers list
     list_orders = df.OrderNumber.unique()
     # Dictionnary for mapping
-    dict_map = dict(zip(list_orders, [i for i in range(1, len(list_orders))]))
+    dict_map = {order_number: order_id for order_id, order_number in enumerate(list_orders, start=1)}
     # Order ID mapping
     df['OrderID'] = df['OrderNumber'].map(dict_map)
-    # Grouping Orders by Wave of orders_number 
-    df['WaveID'] = (df.OrderID%orders_number == 0).shift(1).fillna(0).cumsum() + wave_start
+    # Assign a wave per order so multi-line orders stay together.
+    df['WaveID'] = (df['OrderID'] - 1) // orders_number + wave_start
     # Counting number of Waves
     waves_number = df.WaveID.max() + 1
     return df, waves_number
