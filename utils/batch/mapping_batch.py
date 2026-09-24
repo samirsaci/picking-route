@@ -9,11 +9,11 @@ def orderlines_mapping(df_orderlines, orders_number):
 	df_orderlines.sort_values(by='DATE', ascending = True, inplace = True)
 	# Unique order numbers list
 	list_orders = df_orderlines.OrderNumber.unique()
-	dict_map = dict(zip(list_orders, [i for i in range(1, len(list_orders))]))
+	dict_map = {order_number: order_id for order_id, order_number in enumerate(list_orders, start=1)}
 	# Order ID mapping
 	df_orderlines['OrderID'] = df_orderlines['OrderNumber'].map(dict_map)
-	# Grouping Orders by Wave of orders_number 
-	df_orderlines['WaveID'] = (df_orderlines.OrderID%orders_number == 0).shift(1).fillna(0).cumsum()
+	# Assign a wave per order so multi-line orders stay together.
+	df_orderlines['WaveID'] = (df_orderlines['OrderID'] - 1) // orders_number
 	# Counting number of Waves
 	waves_number = df_orderlines.WaveID.max() + 1
 	return df_orderlines, waves_number
